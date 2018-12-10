@@ -1,5 +1,10 @@
-# garmin-parser
+# garmin-parser [![npm version](https://badge.fury.io/js/garmin-parser.svg)](https://badge.fury.io/js/garmin-parser)
 Garmin USB binary protocol parser for nodejs / nwjs
+
+## Install
+```sh
+npm install garmin-parser --save
+```
 
 ## Features
 Parser written by using of Garmin Device Interface Specification May 19, 2006 (It's a latest documentation which i found)

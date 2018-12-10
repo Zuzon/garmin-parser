@@ -1,8 +1,9 @@
 {
   "name": "garmin-parser",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Garmin USB binary data parsing library for nodejs, nwjs, electron",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "keywords": [
     "garmin",
     "usb",
@@ -11,7 +12,9 @@
     "pvt",
     "nodejs",
     "nwjs",
-    "electron"
+    "electron",
+    "javascript",
+    "typescript"
   ],
   "scripts": {
     "test": "test",
