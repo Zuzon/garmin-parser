@@ -1,6 +1,6 @@
 {
   "name": "garmin-parser",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Garmin USB binary data parsing library for nodejs, nwjs, electron",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,15 +18,18 @@
   ],
   "scripts": {
     "test": "test",
-    "build": "rimraf -- dist && tsc"
+    "build": "rimraf -- dist && tsc",
+    "example": "tsc ./examples/index.ts --lib ES2015 && node examples/index.js"
   },
   "author": "Aigars Zeiza",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^10.12.12",
+    "@types/usb": "1.1.6",
     "rimraf": "^2.6.2",
     "tslint": "^5.11.0",
     "tslint-eslint-rules": "^5.4.0",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.2",
+    "usb": "1.5.0"
   }
 }

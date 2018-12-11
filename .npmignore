@@ -3,3 +3,4 @@ tslint.json
 
 #typescript source files
 src
+examples
