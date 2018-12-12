@@ -17,8 +17,7 @@
     "typescript"
   ],
   "scripts": {
-    "coverage": "nyc  -r lcov -e .ts -x \"*.spec.ts\" jasmine-ts",
-    "test": "jasmine-ts",
+    "test": "nyc  -r lcov -e .ts -x \"*.spec.ts\" jasmine-ts",
     "postinstall": "tsc",
     "build": "rimraf -- dist && tsc",
     "example": "ts-node examples/index.ts"
