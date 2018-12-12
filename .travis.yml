@@ -16,6 +16,7 @@ install:
   - npm i -g jasmine-ts
   - npm i -g nyc
   - npm i -g ts-node
+  - npm i @types/jasmine
 before_install:
   - npm i -g npm@^5
 before_script:
