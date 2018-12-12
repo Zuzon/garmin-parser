@@ -11,7 +11,20 @@ import {
 } from './enums';
 import { BasicPacket } from './basicPacket';
 import { LinkProtocolParser } from './protocols/link';
+/**
+ * Main parsing class
+ *
+ * @export
+ * @class GarminParser
+ */
 export class GarminParser {
+
+    /**
+     *
+     *
+     * @type {Protocol[]}
+     * @memberof GarminParser
+     */
     public protocols: Protocol[];
     private _eventEmitter: EventEmitter;
     private _protocolConfigured: boolean = false;
@@ -23,6 +36,13 @@ export class GarminParser {
         this._eventEmitter = new EventEmitter();
         this.protocols = [];
     }
+    /**
+     * Use this method as callback for node-usb in-endpoint transfer
+     *
+     * @param {Buffer} buffer
+     * @returns {Promise<void>}
+     * @memberof GarminParser
+     */
     public async inEndpoint(buffer: Buffer): Promise<void> {
         const packet = this.getPacket(buffer);
         switch (packet.packetType) {
@@ -35,18 +55,37 @@ export class GarminParser {
             default:
                 return;
         }
-        return;
     }
 
+    /**
+     * Pass out-endpoint here, to send packets via GarminParser
+     *
+     * @param {*} endpoint
+     * @memberof GarminParser
+     */
     public setOutEndpoint(endpoint: any): void {
         this._outEndpoint = endpoint;
     }
 
+    /**
+     * Subscribe for event
+     *
+     * @param {string} eventName
+     * @param {(...args: any[]) => void} fn
+     * @returns
+     * @memberof GarminParser
+     */
     public on(eventName: string, fn: (...args: any[]) => void) {
         return this._eventEmitter.on(eventName, fn);
     }
 
-    /** returns device unit id */
+    /**
+     * Start data translation session, must be called before call any another commands.
+     * While session not started, parser will ignore all incoming packets
+     *
+     * @returns {Promise<number>}
+     * @memberof GarminParser
+     */
     public async startSession(): Promise<number> {
         return new Promise<number>((resolve, reject) => {
             const timeout = setTimeout(() => {
@@ -70,6 +109,12 @@ export class GarminParser {
         });
     }
 
+    /**
+     * Send request command for product data, such as name, device ID, supported protocols...
+     *
+     * @returns {Promise<ProductData>}
+     * @memberof GarminParser
+     */
     public async requestProductData(): Promise<ProductData> {
         return new Promise<ProductData>((resolve, reject) => {
             const timeout = setTimeout(() => {
@@ -94,6 +139,12 @@ export class GarminParser {
         });
     }
 
+    /**
+     * Start PVT data translation. To handle incoming PVT - subscribe for 'pvtData' event
+     *
+     * @returns {Promise<void>}
+     * @memberof GarminParser
+     */
     public async startPvt(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if (!this.isSupported('A', 10) && this.linkProtocolVersion !== 1) {
@@ -127,6 +178,12 @@ export class GarminParser {
         });
     }
 
+    /**
+     * Stop PVT data translation
+     *
+     * @returns {Promise<void>}
+     * @memberof GarminParser
+     */
     public async stopPvt(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             if (!this.isSupported('A', 10) && this.linkProtocolVersion !== 1) {
@@ -151,6 +208,12 @@ export class GarminParser {
         });
     }
 
+    /**
+     *
+     *
+     * @returns {Promise<void>}
+     * @memberof GarminParser
+     */
     public async startTransferWpt(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             // if (!this.isSupported('A', 10) && this.linkProtocolVersion !== 1) {
@@ -175,6 +238,12 @@ export class GarminParser {
         });
     }
 
+    /**
+     * Abort transfer process
+     *
+     * @returns {Promise<void>}
+     * @memberof GarminParser
+     */
     public async stopTransfer(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
             // if (!this.isSupported('A', 10) && this.linkProtocolVersion !== 1) {

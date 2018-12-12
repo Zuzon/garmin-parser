@@ -1,4 +1,4 @@
-# garmin-parser [![npm version](https://badge.fury.io/js/garmin-parser.svg)](https://badge.fury.io/js/garmin-parser)
+# garmin-parser [![npm version](https://badge.fury.io/js/garmin-parser.svg)](https://badge.fury.io/js/garmin-parser) [![Build Status](https://travis-ci.org/Zuzon/garmin-parser.svg?branch=master)](https://travis-ci.org/Zuzon/garmin-parser)
 Garmin USB binary protocol parser for nodejs / nwjs
 
 ## Install

@@ -5,7 +5,7 @@
         "strict": true,
         "outDir": "dist",
         "sourceMap": true,
-        "baseUrl": "./src",
+        "baseUrl": "./src/index.ts",
         "declaration": true,
         "lib": [
             "dom",
@@ -17,7 +17,9 @@
     },
     "exclude": [
         "node_modules",
-        "dist"
+        "dist",
+        "examples",
+        "spec"
     ],
     "rules": {
         "no-constant-condition": true

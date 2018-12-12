@@ -1,6 +1,3 @@
-tsconfig.json
 tslint.json
-
-#typescript source files
-src
-examples
+.nyc_output
+coverage
