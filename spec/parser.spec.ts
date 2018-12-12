@@ -1,5 +1,5 @@
 import 'jasmine';
-import { GarminParser } from '../';
+import { GarminParser } from '../src';
 
 describe('should create parser instance', () => {
     const parser = new GarminParser();
