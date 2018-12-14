@@ -19,7 +19,6 @@
   "scripts": {
     "test": "nyc  -r lcov -e .ts -x \"*.spec.ts\" jasmine-ts",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
-    "postinstall": "tsc",
     "build": "rimraf -- dist && tsc",
     "example": "ts-node examples/index.ts"
   },
