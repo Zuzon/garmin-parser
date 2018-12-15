@@ -19,6 +19,7 @@ Please look at example https://github.com/Zuzon/garmin-parser/tree/master/exampl
 download repository and run this command
 ```sh
 npm install
+npm run build
 npm run example
 ```
 
@@ -27,6 +28,11 @@ npm run example
 * associate device to generic WinUsb driver by using Zadig or winusb-driver-generator https://www.npmjs.com/package/winusb-driver-generator
 (personally i'm using a driver generator in my app, so user can instantly connect to garmin without any extra actions)
 
+### For mac users
+* you will need to install usb
+```sh
+npm install usb
+```
 
 # API
 
