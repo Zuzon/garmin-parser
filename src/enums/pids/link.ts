@@ -26,7 +26,21 @@ export enum L001 {
     Pid_Course_Point = 1063,
     Pid_Course_Trk_Hdr = 1064,
     Pid_Course_Trk_Data = 1065,
-    Pid_Course_Limits = 1066
+    Pid_Course_Limits = 1066,
+    Pid_UnitId = 38,
+    Pid_UndefinedData1 = 39,
+    Pid_UndefinedData2 = 931,
+    Pid_UndefinedData3 = 69,
+    Pid_UndefinedData4 = 252,
+    Pid_UndefinedData5 = 95,
+    Pid_UndefinedData6 = 1631,
+    Pid_UndefinedData7 = 1632,
+    Pid_UndefinedData8 = 1560,
+    Pid_UndefinedData9 = 1561,
+    Pid_UndefinedData10 = 101,
+    Pid_UndefinedData11 = 105,
+    Pid_UndefinedData12 = 106,
+    Pid_UndefinedData13 = 133
 }
 
 export enum L002 {

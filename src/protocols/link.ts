@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import { Packet, PVTdataType } from '../interfaces';
 import { L001, L002 } from '../enums/pids/link';
+import { Converter } from '../common';
 export class LinkProtocolParser {
     public static parseL001(packet: Packet, emitter: EventEmitter): void {
         // console.log('parse L001', packet);
@@ -80,7 +81,18 @@ export class LinkProtocolParser {
                     leap_scnds: packet.data.readInt16LE(58),
                     wn_days: packet.data.readUInt32LE(60)
                 };
-                emitter.emit('pvtData', result);
+                const parsed = {
+                    lat: result.posn.lat * (180 / Math.PI),
+                    lon: result.posn.lon * (180 / Math.PI),
+                    altitude: result.alt + result.msl_hght,
+                    dateUTC: Converter.getDate(result.wn_days, result.tow),
+                    speedKmh: Converter.getSpeed(result.north, result.east, result.up),
+                    fix: Converter.fixToString(result.fix)
+                };
+                emitter.emit('pvtData', {
+                    raw: result,
+                    parsed
+                });
                 break;
             case L001.Pid_Records:
                 console.log('records data', packet.data);

@@ -7,7 +7,8 @@ import {
     Tag,
     L001,
     L002,
-    A010
+    A010,
+    A011
 } from './enums';
 import { BasicPacket } from './basicPacket';
 import { LinkProtocolParser } from './protocols/link';
@@ -27,7 +28,6 @@ export class GarminParser {
      */
     public protocols: Protocol[];
     private _eventEmitter: EventEmitter;
-    private _protocolConfigured: boolean = false;
     private _outEndpoint: any;
     private sessionStarted: boolean = false;
     private linkProtocolVersion: number = 1;
@@ -268,30 +268,66 @@ export class GarminParser {
         });
     }
 
-    // public async powerOff(): Promise<void> {
-    //     return new Promise<void>((resolve, reject) => {
-    //         if (!this.isSupported('A', 10) && this.linkProtocolVersion !== 1) {
-    //             reject('Power off not supported by this device');
-    //             return;
-    //         }
-    //         const commandData = Buffer.alloc(2);
-    //         commandData.writeUInt16LE(A010.Cmnd_Turn_Off_Pwr, 0);
-    //         const packet = BasicPacket.getBasicPacket(
-    //             PacketType.ApplicationLayer,
-    //             L001.Pid_Command_Data,
-    //             commandData
-    //             );
-    //         console.log('power off packet', packet);
-    //         this._outEndpoint.transfer(packet, (err: any) => {
-    //             if (err) {
-    //                 reject(err);
-    //                 this._eventEmitter.off('pvtData', resolve);
-    //                 return;
-    //             }
-    //             resolve();
-    //         });
-    //     });
-    // }
+    /**
+     * Turn off connected device
+     *
+     * @returns {Promise<void>}
+     * @memberof GarminParser
+     */
+    public async powerOff(): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            const commandData = Buffer.alloc(2);
+            let pid: number;
+            if (this.isSupported('L', 1)) {
+                pid = L001.Pid_Command_Data;
+            } else if (this.isSupported('L', 2)) {
+                pid = L002.Pid_Command_Data;
+            } else {
+                reject('Command data PID not supported by this device');
+                return;
+            }
+            if (this.isSupported('A', 10)) {
+                commandData.writeUInt16LE(A010.Cmnd_Turn_Off_Pwr, 0);
+            } else if (this.isSupported('A', 11)) {
+                commandData.writeUInt16LE(A011.Cmnd_Turn_Off_Pwr, 0);
+            } else {
+                reject('Power off not supported by this device');
+                return;
+            }
+            const packet = BasicPacket.getBasicPacket(
+                PacketType.ApplicationLayer,
+                pid,
+                commandData
+                );
+            this._outEndpoint.transfer(packet, (err: any) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve();
+            });
+        });
+    }
+
+    public async test(cid: number): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            const commandData = Buffer.alloc(2);
+            commandData.writeUInt16LE(cid, 0);
+            const packet = BasicPacket.getBasicPacket(
+                PacketType.ApplicationLayer,
+                10,
+                commandData
+                );
+            console.log('test packet', packet);
+            this._outEndpoint.transfer(packet, (err: any) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve();
+            });
+        });
+    }
 
     private async processProtocolLayer(packet: Packet): Promise<void> {
         switch (packet.packetId) {
@@ -317,7 +353,7 @@ export class GarminParser {
                 }
             }
             console.log('device is configured', this.protocols);
-            this._protocolConfigured = true;
+            this._eventEmitter.emit('configured');
             return;
         }
         switch (packet.packetId) {

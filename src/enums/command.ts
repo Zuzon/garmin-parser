@@ -36,6 +36,12 @@ export enum A010 {
      */
     Cmnd_Turn_Off_Pwr = 8,
     /**
+     * Request Unit ID
+     * tested on Montana 650t
+     */
+    Cmnd_RequestUnitId = 14,
+    Cmnd_Transfer_Undefined1 = 15,
+    /**
      * start transmitting PVT data
      */
     Cmnd_Start_Pvt_Data = 49,

@@ -9,8 +9,11 @@ npm install garmin-parser --save
 ## Features
 Parser written by using of Garmin Device Interface Specification May 19, 2006 (It's a latest documentation which i found)
 
-At this moment only session start and PVT data parsing is available. Tested on Garmin Montana 650t.
-Another features will come soon.
+At this moment only session start and PVT data parsing is available. Tested on:
+
+    Montana 650t
+    Oregon 450
+Another features and more detailed docs will come soon.
 
 ## How to use
 Please look at example https://github.com/Zuzon/garmin-parser/tree/master/examples
@@ -19,6 +22,7 @@ Please look at example https://github.com/Zuzon/garmin-parser/tree/master/exampl
 download repository and run this command
 ```sh
 npm install
+npm install usb
 npm run example
 ```
 
@@ -34,6 +38,8 @@ npm run example
     ...
     const garmin = new GarminParser()
     ...
+
+## Methods
 
 ### garmin.startSession(): Promise<number>
 returns device unit ID
@@ -55,3 +61,37 @@ start PVT translation
 
 ### garmin.stopPvt(): Promise<void>
 stop PVT data translation
+
+## Events
+
+## pvtData: Event
+event starts coming approx 1 time per second after .startPvt()
+
+    {
+        raw: {                  // raw object as PVT data type
+            alt: number;        // altitude above WGS 84 ellipsoid (meters)
+            epe: number;        // estimated position error, 2 sigma (meters)
+            eph: number;        // epe, but horizontal only (meters)
+            eve: number;        // epe, but vertical only (meters)
+            fix: number;        // type of position fix
+            tow: number;        // time of week (seconds)
+            posn: {
+                lat: number;    // latitude in radians
+                lon: number;    // longitude in radians
+            };
+            east: number;       // velocity east (meters/second)
+            north: number;      // velocity north (meters/second)
+            up: number;         // velocity up (meters/second)
+            msl_hght: number;   // height of WGS84 ellipsoid above MSL(meters)
+            leap_scnds: number; // difference between GPS and UTC (seconds)
+            wn_days: number;    // week number days
+        };
+        parsed: {               // more javascript and human friendly data
+            lat: number;        // latitutde in degrees
+            lon: number;        // longitude in degrees
+            altitude: number;   // altitude in meters
+            dateUTC: Date;      // GPS datetime in UTC
+            speedKmh: number;   // speed km/h
+            fix: string;        // GPS fix type
+        }
+    }
